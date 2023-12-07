@@ -15,12 +15,11 @@ class AttachmentUpload
      * @param array $options
      * @return StorageDriver
      */
-    public static function init(array $options = []) : StorageDriver
+    public static function init($type = 'Local', array $options = []) : StorageDriver
     {
         if (empty($options)) {
             $options = config('app.token');
         }
-        $type  = !empty($options['type']) ? $options['type'] : 'Local';
         return self::$drivers[$type] ?? self::$drivers[$type] = self::resolve($type, $options);
     }
     /**
@@ -36,7 +35,7 @@ class AttachmentUpload
             return new self::$drivers[$type];
         }
         throw new InvalidArgumentException(
-            "AttachmentUpload driver [{$options['type']}] for guard [{$type}] is not defined."
+            "AttachmentUpload driver [{$type}] for guard [{$type}] is not defined."
         );
     }
 }
